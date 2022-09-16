@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -26,6 +28,11 @@ class TaskInfo : AppCompatActivity() {
         listTask = mutableListOf()
         myTask = findViewById<Button>(R.id.myTaskBtn)
         addTask = findViewById(R.id.addTaskBtn)
+
+
+
+
+
         //Подгрузка задач
         prefs = getSharedPreferences(APP, Context.MODE_PRIVATE)
         if(prefs.contains("JSON_STRING")){
@@ -51,13 +58,12 @@ class TaskInfo : AppCompatActivity() {
             val reDir = Intent(this, MainActivity::class.java)
             startActivity(reDir)
         }
-        //Посмотреть задачи
-        myTask.setOnClickListener {
-            listTask.forEach(){
-                Log.d("JSON-INFO", it.toString())
-            }
 
-        }
+        val rv = findViewById<RecyclerView>(R.id.TaskLisrRv)
+
+        val adapter = TaskRVAdapter(this, listTask)
+        rv.layoutManager = LinearLayoutManager(this)
+        rv.adapter = adapter
 
     }
 
